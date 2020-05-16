@@ -1,0 +1,37 @@
+from time import sleep
+import random
+import sys
+sys.stdout.flush()
+responses={
+1:"I can't see anything. Try again maybe.",
+2:"Ummm....I don't think so.",
+3:"Certainly No.",
+4:"Certainly Yes.",
+5:"I see quite a possibility for that.",
+6:"I don't think there's a chance.",
+7:"Definitely Yes.",
+8:"Can't say much.",
+9:"I cannot predict that.",
+10:"Ask Again.",
+11:"Maybe Yes",
+12:"Definitely No.",
+13:"Very probable",
+14:"Improbable",
+15:"You better not know it now.",
+16:"Hell Yesss.",
+17:"I don't want to disappoint you.",
+18:"Very doubtful.",
+19:"Signs point to yes.",
+20:"Most likely yes."
+}
+print("Welcome to Magic 8 Future Prediction.")
+sleep(1)
+while(1):
+    inp=input("\nAsk me a question.\t")
+    print("\nLet me see if I can help.")
+    sleep(3)
+    x=random.randrange(1,20)
+    print ("\nAnswer:"+responses[x])
+    ch=input("Enter q/Q to quit else press enter...")
+    if (ch in ['q','Q']):
+        break
