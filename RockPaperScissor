@@ -1,77 +1,101 @@
-import random
+import random, sys
 from os import system, name
 from time import sleep
-#Function to clear screen in python
+score_user=0
+score_system=0
+win_count=0
+lose_count=0
+total_count=0
 def clear():
     if name=='nt':
         _=system('cls')
-print("\tLet's play rock, paper, sccisor")
+def win():
+    print ('\nGreat! You Won')
+    print('+10 Points')
+    global score_user
+    global score_system
+    global win_count
+    score_user+=10
+    score_system-=5
+    win_count+=1
+def lose():
+    print ('\nAlas! You Lost')
+    print('-5 Points')
+    global score_user
+    global score_system
+    global lose_count
+    score_user-=5
+    score_system+=10
+    lose_count+=1
+rps={1:'rock',2:'paper',3:'scissor'}
+print("\tLet's play rock-paper-sccisor")
+sleep(1)
 print ("\n\tRules:")
+sleep(1)
 print("\t\tPress 1 for Rock.")
+sleep(1)
 print("\t\tPress 2 for Paper.")
+sleep(1)
 print("\t\tPress 3 for Scissor.")
-print("\t\tFor every win, you get 50 points.")
-print("\t\tFor every lose, you get -25 points.")
+sleep(1)
+print("\t\tFor every win, you get 10 points.")
+sleep(1)
+print("\t\tFor every lose, you get -5 points.")
+sleep(1)
 print("\t\tFor every tie, you get 0 points.")
-print("\t\tScore will be calculated when you exit the game.")
-sleep(10)
+sleep(1)
+print("\t\tFinal score will be displayed at the end of the game.")
+sleep(1)
+print("\nYou are being redirected...Good Luck!")
+sleep(1)
 clear()
-score=0
-c1=input('Are you ready?? . Press y/Y to continue or press any key to exit.\t')
+c1=input('\nAre you ready?? . Press y/Y to continue or press any other key to exit.\t')
 if c1=='y' or c1=='Y':
-    nam=input('Enter your name:\t')
+    nam=input('\nEnter your name:\t')
     while(1):
         print("\n\t"+nam+"'s Turn.Please Wait...")
-        sleep(2)
-        inp=input("Rock/Paper/Scissor:\t")
-        if inp=='1':
-            print(nam+":\tRock")
-        elif inp=='2':
-            print(nam+":\tPaper")
-        elif inp=='3':
-            print(nam+":\tScissor")
-        else:
-            print("Invalid Choice")
+        sleep(0.5)
+        try:
+            inp=input("\nRock(1)/Paper(2)/Scissor(3)/Quit(q/Q):\t")
+            if inp not in ['1','2','3','q','Q']:
+                raise ValueError
+        except ValueError:
+            print('Invalid Value Entered.')
             continue
-        x=random.randrange(1,4)
-        print("\n\tSystem's Turn.Please Wait...")
-        sleep(2)
-        if x==1:
-            print("System:\tRock")
-        elif x==2:
-            print("System:\tPaper")
-        else:
-            print("System:\tScissor")
-        if inp=='1' and x==3:
-            print ('Won')
-            score+=50
-            print('+50 Points')
-        elif inp=='2' and x==1:
-            print ('Won')
-            score+=50
-            print('+50 Points')
-        elif inp=='3' and x==2:
-            print ('Won')
-            score+=50
-            print('+50 Points')
-        elif inp=='1' and x==2:
-            print ('Lost')
-            score-=25
-            print('-25 Points')
-        elif inp=='2' and x==3:
-            print ('Lost')
-            score-=25
-            print('-25 Points')
-        elif inp=='3' and x==1:
-            print ('Lost')
-            score-=25
-            print('-25 Points')
-        elif inp==str(x):
-            print ('Tie')
-            print('0 Points')
-        c2=input('\nIf you wish to continue press(y/Y) else press any key to exit\t')
-        if c2=='y' or c2=='Y':
-            continue
-        else:
+        if inp=='q' or inp=='Q':
+            if (score_user>score_system):
+                print("Hoorah! You are awesome. You won the game {} out of {} times".format(win_count,total_count))
+            elif (score_user==score_system and total_count>0):
+                print('Oooohh looks like we have a tie here. How about a tie-breaker!')
+            elif (score_user<score_system):
+                print("Better luck next time Chum!. You lost the game {} out of {} times".format(lose_count,total_count))
+            else:
+                print('Good Bye! Until next time')
             break
-print(nam+"'s Score:\t"+str(score))
+        else:
+            inp=int(inp)
+            print("\n"+nam+" :\t"+rps[inp])
+            print("\n\tSystem's Turn.Please Wait...")
+            x=random.randrange(1,4)
+            sleep(0.5)
+            print("\nSystem :\t"+rps[x])
+            if inp==1 and x==3:
+                win()
+            elif inp==2 and x==1:
+                win()
+            elif inp==3 and x==2:
+                win()
+            elif inp==1 and x==2:
+                lose()
+            elif inp==2 and x==3:
+                lose()
+            elif inp==3 and x==1:
+                lose()
+            elif inp==x:
+                print ('\nOooooooh! A Tie!')
+                print('0 Points')
+            total_count+=1
+            print("\n"+nam+"'s Score:\t"+str(score_user))
+            print("System's Score:\t"+str(score_system))
+            sys.stdout.flush()
+input('Press enter to exit.')
